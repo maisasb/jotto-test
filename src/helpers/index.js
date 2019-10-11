@@ -1,5 +1,5 @@
 /**
- * 
+ * @function getLetterMatchCount
  * @param {*} guessedWord 
  * @param {*} secretWord 
  */
