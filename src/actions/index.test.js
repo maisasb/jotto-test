@@ -22,6 +22,7 @@ describe('getSecretWord action creator', () => {
             });
         });
 
+        //Return porque assim ele espera o dispatch completar para executar o teste
         return store.dispatch(getSecretWord())
             .then(() => {
                 const newState = store.getState();

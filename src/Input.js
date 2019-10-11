@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { guessWord } from './actions';
 
-const Input = props => {
-    const contents = props.success ? null : (
-        <form className="form-inline">
-            <input data-test="input-box" className="mb-2 mx-sm-3" type="text" placeholder="enter guess"/>
-            <button data-test="submit-button" type="submit" className="btn btn-primary mb-2">
-                Submit
-            </button>
-        </form>
-    )
-    return (
-        <div data-test="component-input">
-            {contents}
-        </div>
-    )
+class Input extends Component{
+
+    //console.log(props);
+
+    
+    render() {
+        const contents = this.props.success ? null : (
+            <form className="form-inline">
+                <input data-test="input-box" className="mb-2 mx-sm-3" type="text" placeholder="enter guess"/>
+                <button data-test="submit-button" type="submit" className="btn btn-primary mb-2">
+                    Submit
+                </button>
+            </form>
+        )
+        return (
+            <div data-test="component-input">
+                {contents}
+            </div>
+        )
+    }
+    
 }
 
 const mapStateToProps = ({success}) => {
@@ -25,4 +33,4 @@ const mapStateToProps = ({success}) => {
 
 
 
-export default connect(mapStateToProps)(Input);
+export default connect(mapStateToProps, { guessWord })(Input);

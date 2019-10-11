@@ -1,66 +1,74 @@
 import React from 'react';
-import { shallow}  from 'enzyme';
+import { shallow } from 'enzyme';
 
 import { findByTestAttr, storeFactory } from '../test/testUtils';
 import Input from './Input';
 
 /**
- * Factory function to create a ShallowWrapper in this connected component
- * @function setup
- * @param {object} initialState 
- */
+* Factory function to create a ShallowWrapper for the Input component.
+* @function setup
+* @param {object} initialState - Initial state for this setup.
+* @returns {ShallowWrapper}
+*/
 const setup = (initialState={}) => {
-    const store = storeFactory(initialState);
-    //dive() recupera o componente da hoc
-    const wrapper = shallow(<Input store={store}/>).dive().dive();
-    //console.log(wrapper.debug());
-    return wrapper;
+  const store = storeFactory(initialState);
+  const wrapper = shallow(<Input store={store} />).dive().dive();  
+  return wrapper;
 }
 
-//setup();
-
 describe('render', () => {
-    describe('word has been guessed', () =>{
-        let wrapper;
-        beforeEach(() => {
-            const initialState = { success: true };
-            wrapper = setup(initialState);
-        });
-        test('renders component without error', () =>{
-            const component = findByTestAttr(wrapper, "component-input");
-            expect(component.length).toBe(1);
-        });
-        test('NOT renders input box', () =>{
-            const inputBox = findByTestAttr(wrapper, "input-box");
-            expect(inputBox.length).toBe(0);
-        });
-        test('NOT renders submit button', () =>{
-            const submit = findByTestAttr(wrapper, "submit-button");
-            expect(submit.length).toBe(0);
-        });
+  describe('word has not been guessed', () => {
+    let wrapper;
+    beforeEach(() => {
+      const initialState = { success: false };
+      wrapper = setup(initialState);      
+    })
+    test('renders component without error', () => {
+      const component = findByTestAttr(wrapper, 'component-input');
+      expect(component.length).toBe(1);
     });
-    describe('word has NOT been guessed', () =>{
-        let wrapper;
-        beforeEach(() => {
-            const initialState = { success: false };
-            wrapper = setup(initialState);
-        });
-        test('renders component without error', () =>{
-            const component = findByTestAttr(wrapper, "component-input");
-            expect(component.length).toBe(1);
-        });
-        test('renders input box', () =>{
-            const inputBox = findByTestAttr(wrapper, "input-box");
-            expect(inputBox.length).toBe(1);
-        });
-        test('renders submit button', () =>{
-            const submit = findByTestAttr(wrapper, "submit-button");
-            expect(submit.length).toBe(1);
-        });
+    test('renders input box', () => {
+      const inputBox = findByTestAttr(wrapper, 'input-box');
+      expect(inputBox.length).toBe(1);
     });
+    test('renders submit button', () => {
+      const submitButton = findByTestAttr(wrapper, 'submit-button');
+      expect(submitButton.length).toBe(1);
+    });
+  });
+  describe('word has been guessed', () => {
+    let wrapper;
+    beforeEach(() => {
+      const initialState = { success: true };
+      wrapper = setup(initialState);
+    });
+    test('renders component without error', () => {
+      const component = findByTestAttr(wrapper, 'component-input');
+      expect(component.length).toBe(1);
+    });
+    test('does not render input box', () => {
+      const inputBox = findByTestAttr(wrapper, 'input-box');
+      expect(inputBox.length).toBe(0);
+    });
+    test('does not render submit button', () => {
+      const submit = findByTestAttr(wrapper, 'submit-button');
+      expect(submit.length).toBe(0);
+    });
+  });
 });
-describe('update state', () => {
-    test('', () =>{
 
-    });
+describe('redux props', () => {
+  test('has success piece of state as prop', () => {
+     const success = true;
+     const wrapper = setup({ success });     
+     const successProp = wrapper.instance().props.success; //-> For Component class only, functional components don't have instance
+     //const successProp = wrapper.props().success;
+     //console.log(wrapper);
+     expect(successProp).toBe(success);
+  });
+  test('"guessWord" action creator is a function prop', () => {
+    const wrapper = setup();
+    const guessWordProp = wrapper.instance().props.guessWord;
+    expect(guessWordProp).toBeInstanceOf(Function);
+  });
 });
