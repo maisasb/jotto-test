@@ -67,7 +67,7 @@ describe('redux props', () => {
      expect(successProp).toBe(success);
   });
   test('"guessWord" action creator is a function prop', () => {
-    console.log("teste");
+    console.log("Teste");
     const wrapper = setup();
     const guessWordProp = wrapper.instance().props.guessWord;
     expect(guessWordProp).toBeInstanceOf(Function);
