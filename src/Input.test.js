@@ -71,4 +71,5 @@ describe('redux props', () => {
     const guessWordProp = wrapper.instance().props.guessWord;
     expect(guessWordProp).toBeInstanceOf(Function);
   });
+  
 });
